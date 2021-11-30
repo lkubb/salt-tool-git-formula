@@ -1,0 +1,19 @@
+# global git configuration values to set
+# see https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+# or man git-config for the exhaustive list
+
+tool:
+  git:
+    users:
+      - username: user  # the local username you are using
+        xdg: true       # force $XDG_CONF_HOME/git/config instead of ~/.gitconfig
+        config: # global git config
+          user.name: Mister Robot
+          user.email: elliotalderson@protonmail.ch
+          user.signingkey: 0xB178523B9C2FA3D1
+          credential.helper: cache --timeout=900 # 15m is default. osxkeychain on macos, manager on windows, many more to discover
+          core.editor: vim
+          gpg.sign: false
+        # want to add some switches like setting up global ignore file @TODO
+    defaults:
+      gpg.sign: false

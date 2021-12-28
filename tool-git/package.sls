@@ -1,3 +1,3 @@
-tool-git-installed:
+Git is installed:
   pkg.installed:
     - name: git

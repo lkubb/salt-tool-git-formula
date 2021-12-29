@@ -1,7 +1,3 @@
-# global git configuration values to set
-# see https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
-# or man git-config for the exhaustive list
-
 tool:
   users:
     user:
@@ -21,6 +17,8 @@ tool:
     users:        # you can add git-specific user data like in tool:users
       user:
         xdg: false
+        git:
+          user.name: fsociety
 
     defaults:     # default git config values for users go here
       gpg.sign: false

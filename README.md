@@ -73,7 +73,7 @@ tool:
 - `salt://dotconfig/<user>/git` or
 - `salt://dotconfig/git`
 
-to the specified config dir for every user that has it enabled (see `user.dotconfig`). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
+to the user's config dir for every user that has it enabled (see `user.dotconfig`). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
 
 ## Reference
 * https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration

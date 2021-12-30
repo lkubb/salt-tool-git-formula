@@ -14,4 +14,5 @@ Git configuration is synced for user '{{ user.name }}':
     - group: {{ user.group }}
     - file_mode: keep
     - dir_mode: '0700'
+    - makedirs: True
 {%- endfor %}

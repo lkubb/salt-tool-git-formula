@@ -1,6 +1,6 @@
 {%- from 'tool-git/map.jinja' import git %}
 
-{%- if git.users | selectattr('dotconfig') %}
+{%- if git.users | selectattr('dotconfig', 'defined') | selectattr('dotconfig') %}
 include:
   - .configsync
 {%- endif %}

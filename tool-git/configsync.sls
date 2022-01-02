@@ -5,8 +5,8 @@ Git configuration is synced for user '{{ user.name }}':
   file.recurse:
     - name: {{ user._git.confdir }}
     - source:
-      - salt://user/{{ user.name }}/dotfiles/git
-      - salt://user/dotfiles/git
+      - salt://dotconfig/{{ user.name }}/git
+      - salt://dotconfig/git
     - context:
         user: {{ user }}
     - template: jinja

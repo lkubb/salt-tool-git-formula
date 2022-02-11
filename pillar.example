@@ -2,6 +2,9 @@ tool:
   users:
     user:
       xdg: true   # force $XDG_CONF_HOME/git/config instead of ~/.gitconfig
+      # sync this user's config from a dotfiles repo available as
+      # salt://dotconfig/<user>/git or salt://dotconfig/git
+      dotconfig: true
       git:        # global git config
         user.name: Mister Robot
         user.email: elliotalderson@protonmail.ch
@@ -13,12 +16,6 @@ tool:
   git:
     system: # system-wide gitconfig file @TODO
       gpg.sign: true
-
-    users:        # you can add git-specific user data like in tool:users
-      user:
-        xdg: false
-        git:
-          user.name: fsociety
 
     defaults:     # default git config values for users go here
       gpg.sign: false

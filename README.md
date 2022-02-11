@@ -47,6 +47,8 @@ The following shows an example of `tool-git` pillar configuration. Namespace it 
 ```yaml
 user:
   xdg: true   # force $XDG_CONF_HOME/git/config instead of ~/.gitconfig
+  # sync this user's config from a dotfiles repo available as
+  # salt://dotconfig/<user>/git or salt://dotconfig/git
   dotconfig: true
   git:        # global git config
     user.name: Mister Robot

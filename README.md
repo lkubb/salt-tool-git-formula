@@ -49,7 +49,10 @@ user:
   xdg: true   # force $XDG_CONF_HOME/git/config instead of ~/.gitconfig
   # sync this user's config from a dotfiles repo available as
   # salt://dotconfig/<user>/git or salt://dotconfig/git
-  dotconfig: true
+  dotconfig:              # can be bool or mapping
+    file_mode: '0600'     # default: keep destination or salt umask (new)
+    dir_mode: '0700'      # default: 0700
+    clean: false          # delete files in target. default: false
   git:        # global git config
     user.name: Mister Robot
     user.email: elliotalderson@protonmail.ch

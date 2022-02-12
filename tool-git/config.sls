@@ -7,7 +7,7 @@ git configuration value '{{ conf_name  }}' is set for user '{{ user }}':
   {%- if conf_value is iterable and conf_value is not string %}
     - multivar: {{ conf_value | json }}
   {%- else %}
-    - value: {{ conf_value }}
+    - value: {{ conf_value | json }}
   {%- endif %}
     - user: {{ user }}
     - global: true

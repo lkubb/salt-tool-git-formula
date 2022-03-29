@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/lkubb/salt-tool-template-formula",
+  "commit": "5ca3805e45de7c57eb86d70f54b53748bda21333",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "name": "git",
+      "abbr": "git",
+      "abbr_pysafe": "git",
+      "pkg": "git",
+      "mac_library": "n",
+      "mac_cask": "n",
+      "has_xdg": "y",
+      "default_xdg": "n",
+      "default_confdir": "",
+      "default_confdir_mac": "",
+      "git_username": "lkubb",
+      "modstate": "n",
+      "_template": "https://github.com/lkubb/salt-tool-template-formula"
+    }
+  },
+  "directory": null
+}

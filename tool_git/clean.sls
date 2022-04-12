@@ -2,4 +2,5 @@
 # vim: ft=sls
 
 include:
-  - .migrated
+  - .config.clean
+  - .package.clean

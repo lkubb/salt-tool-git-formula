@@ -7,11 +7,12 @@ values:
   lookup:
     pkg:
       name: git
+    paths:
+      confdir: ''
+      conffile: '.gitconfig'
+      xdg_dirname: 'git'
+      xdg_conffile: 'config'
     rootgroup: root
-    config:
-      default_confdir: ''
-      default_conffile: '.gitconfig'
-      default_xdg_conffile: 'config'
   # Just here for testing
   added_in_defaults: defaults_value
   winner: defaults

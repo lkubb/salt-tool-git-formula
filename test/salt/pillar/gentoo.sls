@@ -4,7 +4,8 @@
 portage:
   sync_wait_one_day: true
 tool_git:
-  pkg:
-    name: git
-  service:
-    name: git
+  lookup:
+    pkg:
+      name: git
+    service:
+      name: git

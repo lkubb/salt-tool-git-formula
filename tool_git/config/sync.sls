@@ -8,19 +8,16 @@
 
 
 {%- for user in git.users | selectattr('dotconfig', 'defined') | selectattr('dotconfig') %}
-{%-   set dotconfig = user.dotconfig if dotconfig is mapping else {} %}
+{%-   set dotconfig = user.dotconfig if user.dotconfig is mapping else {} %}
 
 git configuration is synced for user '{{ user.name }}':
   file.recurse:
-    - name: {{ user['_' ~ tplroot[5:]].confdir }}
+    - name: {{ user['_git'].confdir }}
     - source: {{ files_switch(
-                [salt['file.join']('user', user.name, tplroot[5:])],
-                default_files_switch=['id', 'os', 'os_family'],
-                override_root='dotconfig') }}
-              {{ files_switch(
-                [tplroot[5:]],
-                default_files_switch=['id', 'os', 'os_family'],
-                override_root='dotconfig') }}
+                ['git'],
+                default_files_switch=['id', 'os_family'],
+                override_root='dotconfig',
+                opt_prefixes=[user.name]) }}
     - context:
         user: {{ user | json }}
     - template: jinja
@@ -30,6 +27,6 @@ git configuration is synced for user '{{ user.name }}':
     - file_mode: '{{ dotconfig.file_mode }}'
 {%-   endif %}
     - dir_mode: '{{ dotconfig.get('dir_mode', '0700') }}'
-    - clean: {{ dotconfig.get('clean', False) | to_bool }}
-    - makedirs: True
+    - clean: {{ dotconfig.get('clean', false) | to_bool }}
+    - makedirs: true
 {%- endfor %}

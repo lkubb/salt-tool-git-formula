@@ -35,18 +35,14 @@ The following shows an example of ``tool_git`` per-user configuration. If provid
 
       # Sync this user's config from a dotfiles repo.
       # The available paths and their priority can be found in the
-      # rendered `configsync.sls` file (currently, @TODO docs).
+      # rendered `config/sync.sls` file (currently, @TODO docs).
       # Overview in descending priority:
-      # salt://dotconfig/id/<minion_id>/user/<user>/git
-      # salt://dotconfig/os/Fedora/user/<user>/git
-      # salt://dotconfig/os_family/Debian/user/<user>/git
-      # salt://dotconfig/default/user/<user>/git
-      # salt://dotconfig/id/<minion_id>/git
-      # salt://dotconfig/os/Fedora/git
-      # salt://dotconfig/os_family/Debian/git
+      # salt://dotconfig/<minion_id>/<user>/git
+      # salt://dotconfig/<minion_id>/git
+      # salt://dotconfig/<os_family>/<user>/git
+      # salt://dotconfig/<os_family>/git
+      # salt://dotconfig/default/<user>/git
       # salt://dotconfig/default/git
-      # This means once any source for a specific user was found, it will
-      # override even minion-specific non-user-specific sources.
     dotconfig:              # can be bool or mapping
       file_mode: '0600'     # default: keep destination or salt umask (new)
       dir_mode: '0700'      # default: 0700
@@ -63,13 +59,16 @@ The following shows an example of ``tool_git`` per-user configuration. If provid
       # This user's configuration for this formula. Will be overridden by
       # user-specific configuration in `tool_git:users`.
       # Set this to `false` to disable configuration for this user.
-    git:        # global git config
-      user.name: Mister Robot
-      user.email: elliotalderson@protonmail.ch
-      user.signingkey: 0xB178523B9C2FA3D1
-      credential.helper: cache --timeout=900 # 15m is default. osxkeychain on macos, manager on windows, many more to discover
+      # Global git config for this user.
+    git:
       core.editor: vim
+        # 15m timeout for credentialhelper is default.
+        # osxkeychain on macos, manager on windows, many more to discover
+      credential.helper: cache --timeout=900
       gpg.sign: false
+      user.email: elliotalderson@protonmail.ch
+      user.name: Mister Robot
+      user.signingkey: '0xB178523B9C2FA3D1'
 
 Formula-specific
 ^^^^^^^^^^^^^^^^
@@ -84,36 +83,28 @@ Formula-specific
       # (again for Linux, brew does that anyways).
     version: latest
 
-      # system-wide gitconfig file @TODO
+      # System-wide gitconfig file. @TODO
     system:
       gpg.sign: true
 
       # Default formula configuration for all users.
     defaults:
-      gpg.sign: false
-
-
-Global files
-~~~~~~~~~~~~
-Some tools need global configuration files. A default one is provided with the formula, but can be overridden via the TOFS pattern. See :ref:`tofs_pattern` for details.
+      user.name: default value for all users
 
 Dotfiles
 ~~~~~~~~
-`tool_git.configsync` will recursively apply templates from
+``tool_git.config.sync`` will recursively apply templates from
 
-* ``salt://dotconfig/id/<minion_id>/user/<user>/git``
-* ``salt://dotconfig/os/Fedora/user/<user>/git``
-* ``salt://dotconfig/os_family/Debian/user/<user>/git``
-* ``salt://dotconfig/default/user/<user>/git``
-* ``salt://dotconfig/id/<minion_id>/git``
-* ``salt://dotconfig/os/Fedora/git``
-* ``salt://dotconfig/os_family/Debian/git``
+* ``salt://dotconfig/<minion_id>/<user>/git``
+* ``salt://dotconfig/<minion_id>/git``
+* ``salt://dotconfig/<os_family>/<user>/git``
+* ``salt://dotconfig/<os_family>/git``
+* ``salt://dotconfig/default/<user>/git``
 * ``salt://dotconfig/default/git``
 
 to the user's config dir for every user that has it enabled (see ``user.dotconfig``). The target folder will not be cleaned by default (ie files in the target that are absent from the user's dotconfig will stay).
 
-The URL list above is in descending priority. This means once any source for a specific user was found, it will currently override even minion-specific non-user-specific sources.
-
+The URL list above is in descending priority. This means user-specific configuration from wider scopes will be overridden by more system-specific general configuration.
 
 Development
 -----------

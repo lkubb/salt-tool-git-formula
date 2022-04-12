@@ -9,6 +9,7 @@
 include:
   - {{ sls_config_clean }}
 
+
 git is removed:
   pkg.removed:
     - name: {{ git.lookup.pkg.name }}

@@ -10,11 +10,11 @@
 git configuration value '{{ conf_name  }}' is set for user '{{ user }}':
   git.config_set:
     - name: {{ conf_name }}
-  {%- if conf_value is iterable and conf_value is not string %}
+{%-   if conf_value is iterable and conf_value is not string %}
     - multivar: {{ conf_value | json }}
-  {%- else %}
+{%-   else %}
     - value: {{ conf_value | json }}
-  {%- endif %}
+{%-   endif %}
     - user: {{ user }}
     - global: true
     - require:
@@ -24,8 +24,9 @@ git configuration value '{{ conf_name  }}' is set for user '{{ user }}':
 include:
   - {{ sls_package_install }}
 
+
 {%- for user in git.users %}
-  {%- for conf_name, conf_value in user.git.items() %}
+{%-   for conf_name, conf_value in user.git.items() %}
 {{ gitset(user.name, conf_name, conf_value) }}
-  {%- endfor %}
+{%-   endfor %}
 {%- endfor %}

@@ -1,6 +1,21 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
 ---
+tool_global:
+  users:
+    user:
+      completions: .completions
+      configsync: true
+      persistenv: .bash_profile
+      rchook: .bashrc
+      xdg: true
+      git:
+        core.editor: vim
+        credential.helper: cache --timeout=900
+        gpg.sign: false
+        user.email: elliotalderson@protonmail.ch
+        user.name: Mister Robot
+        user.signingkey: '0xB178523B9C2FA3D1'
 tool_git:
   lookup:
     master: template-master
@@ -8,11 +23,15 @@ tool_git:
     winner: lookup
     added_in_lookup: lookup_value
 
-  pkg:
-    git
-  service:
-    git
-  config: /home/user/.config/git/config
+    pkg:
+      name: git
+    paths:
+      confdir: ''
+      conffile: '.gitconfig'
+      xdg_dirname: 'git'
+      xdg_conffile: 'config'
+  system:
+    gpg.sign: true
 
   tofs:
     # The files_switch key serves as a selector for alternative
@@ -39,13 +58,6 @@ tool_git:
     #   tool-git-config-file-file-managed:
     #     - 'example_alt.tmpl'
     #     - 'example_alt.tmpl.jinja'
-
-    # For testing purposes
-    source_files:
-      tool-git-config-file-file-managed:
-        - 'example.tmpl.jinja'
-      tool-git-subcomponent-config-file-file-managed:
-        - 'subcomponent-example.tmpl.jinja'
 
   # Just for testing purposes
   winner: pillar

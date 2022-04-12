@@ -30,18 +30,14 @@ tool_global:
 
         # Sync this user's config from a dotfiles repo.
         # The available paths and their priority can be found in the
-        # rendered `configsync.sls` file (currently, @TODO docs).
+        # rendered `config/sync.sls` file (currently, @TODO docs).
         # Overview in descending priority:
-        # salt://dotconfig/id/<minion_id>/user/<user>/git
-        # salt://dotconfig/os/Fedora/user/<user>/git
-        # salt://dotconfig/os_family/Debian/user/<user>/git
-        # salt://dotconfig/default/user/<user>/git
-        # salt://dotconfig/id/<minion_id>/git
-        # salt://dotconfig/os/Fedora/git
-        # salt://dotconfig/os_family/Debian/git
+        # salt://dotconfig/<minion_id>/<user>/git
+        # salt://dotconfig/<minion_id>/git
+        # salt://dotconfig/<os_family>/<user>/git
+        # salt://dotconfig/<os_family>/git
+        # salt://dotconfig/default/<user>/git
         # salt://dotconfig/default/git
-        # This means once any source for a specific user was found, it will
-        # override even minion-specific non-user-specific sources.
       dotconfig:              # can be bool or mapping
         file_mode: '0600'     # default: keep destination or salt umask (new)
         dir_mode: '0700'      # default: 0700
@@ -58,17 +54,16 @@ tool_global:
         # This user's configuration for this formula. Will be overridden by
         # user-specific configuration in `tool_git:users`.
         # Set this to `false` to disable configuration for this user.
-      git:        # global git config
-        user.name: Mister Robot
-        user.email: elliotalderson@protonmail.ch
-        user.signingkey: 0xB178523B9C2FA3D1
+        # Global git config for this user.
+      git:
+        core.editor: vim
           # 15m timeout for credentialhelper is default.
           # osxkeychain on macos, manager on windows, many more to discover
         credential.helper: cache --timeout=900
-        core.editor: vim
         gpg.sign: false
-
-        # want to add some switches like setting up global ignore file @TODO
+        user.email: elliotalderson@protonmail.ch
+        user.name: Mister Robot
+        user.signingkey: '0xB178523B9C2FA3D1'
 
 tool_git:
 
@@ -78,14 +73,13 @@ tool_git:
     # (again for Linux, brew does that anyways).
   version: latest
 
-    # system-wide gitconfig file @TODO
+    # System-wide gitconfig file. @TODO
   system:
     gpg.sign: true
 
     # Default formula configuration for all users.
   defaults:
-    gpg.sign: false
-
+    user.name: default value for all users
 
     # User configuration can also be specified here in
     # `tool_git:users`. It will override
@@ -94,7 +88,7 @@ tool_git:
     user:
       persistenv: '.bash_profile'
       git:
-        user.name: Elliot
+        user.name: Elliot  # this overrides config from tool_globl:users
 
 ######################################################################
 # The following settings define default values for this formula,
@@ -106,10 +100,11 @@ tool_git:
     pkg:
       name: git
     rootgroup: root
-    config:
-      default_confdir: ''
-      default_conffile: '.gitconfig'
-      default_xdg_conffile: 'config'
+    paths:
+      confdir: ''
+      conffile: '.gitconfig'
+      xdg_dirname: 'git'
+      xdg_conffile: 'config'
 
 ######################################################################
 # This is where `tool` suite settings end and Salt behavior settings
@@ -130,18 +125,3 @@ tool_git:
       - osfinger
       - os
       - os_family
-
-    # All aspects of path/file resolution are customisable using the options below.
-    # This is unnecessary in most cases; there are sensible defaults.
-    # Default path: salt://< path_prefix >/< dirs.files >/< dirs.default >
-    # I.e.: salt://tool_git/files/default
-    # path_prefix: template_alt
-    # dirs:
-    #   files: files_alt
-    #   default: default_alt
-    # The entries under `source_files` are prepended to the default source files
-    # given for the state
-    source_files:
-      git config file is managed for user 'user':
-        - 'example_alt.tmpl'
-        - 'example_alt.tmpl.jinja'

@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
 # vim: ft=sls
 
-{%- set tplroot = tpldir.split('/')[0] %}
+{#-
+    Removes git XDG compatibility crutches for all managed users.
+#}
+
+{%- set tplroot = tpldir.split("/")[0] %}
 {%- from tplroot ~ "/map.jinja" import mapdata as git with context %}
 
 
-{%- for user in git.users | rejectattr('xdg', 'sameas', false) %}
+{%- for user in git.users | rejectattr("xdg", "sameas", false) %}
 
 {%-   set user_default_conf = user.home | path_join(git.lookup.paths.confdir, git.lookup.paths.conffile) %}
 {%-   set user_xdg_confdir = user.xdg.config | path_join(git.lookup.paths.xdg_dirname) %}
